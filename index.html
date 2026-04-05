@@ -70,6 +70,21 @@
       text-decoration: none;
     }
 
+    .nav-logo-img {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+.hero-logo-img {
+  width: min(420px, 78vw);
+  height: auto;
+  display: block;
+  margin: 0 auto 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+    
     .nav-links {
       display: flex;
       align-items: center;
@@ -934,7 +949,14 @@
       color: var(--blue-mist);
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 768px) {.nav-logo-img {
+  height: 24px;
+}
+
+.hero-logo-img {
+  width: min(320px, 82vw);
+  margin-bottom: 1rem;
+}
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
       section { padding: 4rem 1.5rem; }
@@ -951,7 +973,9 @@
   <div class="notif-bar">Text reminders 24 hrs before & after every clean ✦ Austin, TX</div>
 
   <nav>
-    <a href="index.html" class="nav-logo">Suds & Sweep</a>
+    <a href="index.html" class="nav-logo">
+  <img src="logo-wordmark.png" alt="Suds & Sweep" class="nav-logo-img" />
+</a>
     <div class="nav-links">
       <a href="#services">Services</a>
       <a href="#pricing">Pricing</a>
@@ -963,7 +987,7 @@
   </nav>
 
   <section class="hero">
-    <div class="hero-big-logo">Suds & Sweep</div>
+    <img src="logo-primary.png" alt="Suds & Sweep logo" class="hero-logo-img" />
     <div class="hero-rule"></div>
     <p class="hero-eyebrow">Austin's boutique home cleaning</p>
     <p class="hero-sub">Trusted local cleaners. Reliable scheduling. A home that feels like a fresh start.</p>
