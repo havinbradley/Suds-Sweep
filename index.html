@@ -1,465 +1,1318 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Suds & Sweep — Austin Home Cleaning</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
-<style>
-  :root {
-    --cream: #FAF7F2; --linen: #F2EDE4; --sand: #DAD2C8;
-    --sage: #99A49C; --sage-deep: #7F8B73; --sage-light: #E8EEE6;
-    --forest: #536454;
-    --blue-pale: #D6E8F0; --blue-mist: #AECAE8; --blue-mid: #7A90A8;
-    --blue-deep: #485968; --blue-light: #EBF4FA;
-    --warm-dark: #2C2416; --taupe: #B6ACA4; --white: #FFFFFF;
-    --font-display: 'Cormorant Garamond', serif;
-    --font-body: 'Montserrat', sans-serif;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
-  body { font-family:var(--font-body); background:var(--cream); color:var(--warm-dark); font-weight:300; line-height:1.7; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suds & Sweep — Austin Home Cleaning</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #faf7f2;
+      --linen: #f4efe8;
+      --sand: #ddd5cb;
+      --sage: #a8b5ad;
+      --sage-deep: #87958d;
+      --sage-light: #edf3f2;
+      --forest: #6c7e78;
+      --blue-pale: #e7f1f7;
+      --blue-mist: #cdddea;
+      --blue-mid: #94aec4;
+      --blue-deep: #647e93;
+      --blue-light: #f4f8fb;
+      --warm-dark: #2c2416;
+      --taupe: #a79f97;
+      --white: #ffffff;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
 
-  .notif-bar { background:var(--blue-deep); color:var(--cream); text-align:center; padding:0.6rem 2rem; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--warm-dark);
+      font-weight: 300;
+      line-height: 1.7;
+    }
 
-  nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:1.25rem 3rem; background:rgba(250,247,242,0.94); backdrop-filter:blur(10px); border-bottom:0.5px solid var(--sand); }
-  .nav-logo { font-family:var(--font-display); font-size:22px; font-style:italic; font-weight:300; color:var(--forest); }
-  .nav-links { display:flex; gap:2.5rem; align-items:center; }
-  .nav-links a { font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--sage-deep); text-decoration:none; transition:color 0.2s; }
-  .nav-links a:hover { color:var(--forest); }
-  .nav-cta { background:var(--forest); color:var(--cream)!important; padding:0.55rem 1.4rem; border-radius:100px; }
-  .nav-cta:hover { background:var(--blue-deep)!important; }
+    .notif-bar {
+      background: var(--blue-deep);
+      color: var(--cream);
+      text-align: center;
+      padding: 0.65rem 1rem;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
 
-  /* HERO */
-  .hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:9rem 2rem 5rem; background:var(--cream); position:relative; overflow:hidden; }
-  .hero::before { content:''; position:absolute; top:-80px; right:-80px; width:500px; height:500px; border-radius:50%; background:var(--blue-pale); opacity:0.5; pointer-events:none; }
-  .hero::after { content:''; position:absolute; bottom:-60px; left:-60px; width:320px; height:320px; border-radius:50%; background:var(--sage-light); opacity:0.7; pointer-events:none; }
-  .hero-big-logo { font-family:var(--font-display); font-size:clamp(60px,11vw,130px); font-weight:300; font-style:italic; color:var(--forest); line-height:1; letter-spacing:-2px; margin-bottom:0.75rem; position:relative; z-index:1; }
-  .hero-rule { width:60px; height:0.5px; background:var(--sage); margin:0.75rem auto 1.25rem; position:relative; z-index:1; }
-  .hero-eyebrow { font-size:10px; letter-spacing:0.28em; text-transform:uppercase; color:var(--sage); margin-bottom:1.25rem; position:relative; z-index:1; }
-  .hero-sub { font-size:13px; color:var(--sage-deep); max-width:420px; margin:0 auto 2.5rem; position:relative; z-index:1; }
-  .hero-actions { display:flex; gap:1rem; justify-content:center; position:relative; z-index:1; }
-  .hero-badges { display:flex; gap:2.5rem; justify-content:center; margin-top:3.5rem; position:relative; z-index:1; }
-  .hero-badge { display:flex; flex-direction:column; align-items:center; gap:4px; }
-  .hero-badge-num { font-family:var(--font-display); font-size:32px; font-style:italic; color:var(--forest); }
-  .hero-badge-label { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--sage); }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(250, 247, 242, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid var(--sand);
+    }
 
-  .btn-primary { background:var(--forest); color:var(--cream); padding:0.85rem 2.2rem; border-radius:100px; font-family:var(--font-body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; transition:all 0.25s; border:none; cursor:pointer; display:inline-block; }
-  .btn-primary:hover { background:var(--blue-deep); transform:translateY(-1px); }
-  .btn-outline { background:transparent; color:var(--forest); padding:0.85rem 2.2rem; border-radius:100px; font-family:var(--font-body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; text-decoration:none; transition:all 0.25s; border:1px solid var(--sage); display:inline-block; }
-  .btn-outline:hover { border-color:var(--forest); transform:translateY(-1px); }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--forest);
+      text-decoration: none;
+    }
 
-  /* TRUST BAR — baby blue */
-  .trust-bar { background:var(--blue-pale); border-top:0.5px solid var(--blue-mist); border-bottom:0.5px solid var(--blue-mist); padding:1.25rem 3rem; display:flex; align-items:center; justify-content:center; gap:3rem; flex-wrap:wrap; }
-  .trust-item { display:flex; align-items:center; gap:8px; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--blue-deep); }
-  .trust-dot { width:5px; height:5px; border-radius:50%; background:var(--blue-mid); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.25rem;
+    }
 
-  section { padding:6rem 3rem; }
-  .section-eyebrow { font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:var(--blue-mid); margin-bottom:0.75rem; }
-  .section-title { font-family:var(--font-display); font-size:clamp(32px,4vw,52px); font-weight:300; font-style:italic; line-height:1.1; color:var(--warm-dark); margin-bottom:1rem; }
-  .section-sub { font-size:12px; color:var(--taupe); max-width:480px; }
-  .section-header { margin-bottom:3.5rem; }
+    .nav-links a {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
 
-  /* SERVICES — sage-light */
-  .services { background:var(--sage-light); }
-  .services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.5rem; }
-  .service-card { background:var(--white); border-radius:18px; padding:2rem 1.75rem; border:0.5px solid var(--sand); transition:transform 0.25s,box-shadow 0.25s; cursor:pointer; }
-  .service-card:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(83,100,84,0.1); }
-  .service-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:1.25rem; font-size:20px; }
-  .service-card h3 { font-family:var(--font-display); font-size:22px; font-style:italic; font-weight:300; color:var(--warm-dark); margin-bottom:0.5rem; }
-  .service-card p { font-size:12px; color:var(--taupe); line-height:1.7; }
-  .service-tag { display:inline-block; margin-top:1rem; font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:var(--forest); border:0.5px solid var(--sage-deep); padding:4px 10px; border-radius:100px; }
+    .nav-links a:hover { color: var(--forest); }
 
-  /* PRICING — cream */
-  .pricing { background:var(--cream); }
-  .pricing-tabs { display:flex; gap:0.5rem; margin-bottom:2.5rem; flex-wrap:wrap; }
-  .pricing-tab { padding:0.6rem 1.4rem; border-radius:100px; cursor:pointer; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; border:0.5px solid var(--sand); background:transparent; color:var(--sage-deep); transition:all 0.2s; font-family:var(--font-body); }
-  .pricing-tab.active { background:var(--forest); color:var(--cream); border-color:var(--forest); }
-  .pricing-panel { display:none; }
-  .pricing-panel.active { display:block; }
-  .pricing-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:1rem; }
-  .price-card { background:var(--white); border-radius:16px; padding:2rem 1.5rem; border:0.5px solid var(--sand); text-align:center; transition:all 0.25s; }
-  .price-card:hover { border-color:var(--sage); }
-  .price-card.featured { border-color:var(--blue-mist); background:var(--blue-light); }
-  .price-card.quote-card { border:1.5px dashed var(--sand); }
-  .price-label { font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--sage); margin-bottom:0.75rem; }
-  .price-amount { font-family:var(--font-display); font-size:48px; font-style:italic; color:var(--forest); margin-bottom:0.5rem; line-height:1; }
-  .price-card.quote-card .price-amount { font-size:30px; color:var(--sage-deep); }
-  .price-sub { font-size:12px; color:var(--taupe); }
-  .price-note { font-size:11px; color:var(--blue-mid); margin-top:0.75rem; }
-  .pricing-intro { font-size:12px; color:var(--taupe); line-height:1.8; margin-bottom:2rem; max-width:600px; background:var(--linen); padding:1.25rem 1.5rem; border-radius:12px; border-left:3px solid var(--blue-mist); }
-  .recurring-banner { background:var(--blue-pale); border-radius:16px; padding:1.5rem 2rem; margin-top:2rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; border:0.5px solid var(--blue-mist); }
-  .recurring-banner p { font-size:12px; color:var(--blue-deep); }
-  .recurring-banner strong { font-family:var(--font-display); font-size:20px; font-style:italic; font-weight:300; display:block; margin-bottom:4px; }
+    .nav-cta {
+      background: var(--forest);
+      color: var(--cream) !important;
+      padding: 0.6rem 1.35rem;
+      border-radius: 999px;
+    }
 
-  /* ADD-ONS — blue-light */
-  .addons { background:var(--blue-light); }
-  .addons-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; }
-  .addon-chip { background:var(--white); border-radius:14px; padding:1.1rem 1.4rem; border:0.5px solid var(--blue-mist); display:flex; align-items:center; gap:12px; transition:all 0.2s; cursor:pointer; }
-  .addon-chip:hover { border-color:var(--sage); background:var(--sage-light); }
-  .addon-chip.selected { border-color:var(--forest); background:var(--sage-light); }
-  .addon-dot { width:9px; height:9px; border-radius:50%; background:var(--blue-mist); flex-shrink:0; }
-  .addon-chip.selected .addon-dot { background:var(--forest); }
-  .addon-name { font-size:13px; color:var(--warm-dark); flex:1; }
-  .addon-price { font-family:var(--font-display); font-size:20px; font-style:italic; color:var(--forest); white-space:nowrap; }
+    .nav-cta:hover { background: var(--blue-deep) !important; }
 
-  /* HOW — linen */
-  .how { background:var(--linen); }
-  .steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:2.5rem; }
-  .step { display:flex; flex-direction:column; align-items:flex-start; gap:1rem; }
-  .step-num { font-family:var(--font-display); font-size:52px; font-style:italic; color:var(--blue-mist); line-height:1; font-weight:300; }
-  .step h4 { font-family:var(--font-display); font-size:22px; font-style:italic; font-weight:300; color:var(--warm-dark); }
-  .step p { font-size:12px; color:var(--taupe); }
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 9rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+      background: var(--cream);
+    }
 
-  /* BOOKING — forest */
-  .booking { background:var(--forest); color:var(--cream); position:relative; overflow:hidden; }
-  .booking::before { content:''; position:absolute; top:-100px; right:-100px; width:400px; height:400px; border-radius:50%; background:var(--blue-deep); opacity:0.25; }
-  .booking-inner { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; position:relative; z-index:1; }
-  .booking-info .section-eyebrow { color:var(--blue-mist); }
-  .booking-info .section-title { color:var(--cream); }
-  .booking-info .section-sub { color:rgba(250,247,242,0.65); }
-  .booking-perks { list-style:none; margin-top:2rem; display:flex; flex-direction:column; gap:0.75rem; }
-  .booking-perks li { display:flex; align-items:center; gap:10px; font-size:12px; color:rgba(250,247,242,0.8); }
-  .perk-dot { width:6px; height:6px; border-radius:50%; background:var(--blue-mist); flex-shrink:0; }
-  .booking-form { background:var(--cream); border-radius:20px; padding:2.5rem; display:flex; flex-direction:column; gap:1.25rem; }
-  .form-title { font-family:var(--font-display); font-size:26px; font-style:italic; color:var(--warm-dark); font-weight:300; }
-  .form-group { display:flex; flex-direction:column; gap:0.4rem; }
-  .form-group label { font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--sage-deep); }
-  .form-group input,.form-group select,.form-group textarea { padding:0.75rem 1rem; border-radius:10px; border:0.5px solid var(--sand); background:var(--linen); font-family:var(--font-body); font-size:12px; color:var(--warm-dark); outline:none; transition:border-color 0.2s; font-weight:300; }
-  .form-group input:focus,.form-group select:focus,.form-group textarea:focus { border-color:var(--sage); }
-  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-  .form-check { display:flex; align-items:center; gap:8px; font-size:11px; color:var(--sage-deep); cursor:pointer; }
-  .form-check input[type=checkbox] { accent-color:var(--forest); width:14px; height:14px; }
-  .form-divider { height:0.5px; background:var(--sand); }
-  .cleaner-section { display:flex; flex-direction:column; gap:0.75rem; }
-  .cleaner-label { font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--sage-deep); }
-  .cleaners-row { display:flex; gap:0.5rem; flex-wrap:wrap; }
-  .cleaner-chip { padding:0.45rem 1.1rem; border-radius:100px; border:0.5px solid var(--sand); background:var(--linen); font-size:11px; color:var(--sage-deep); cursor:pointer; transition:all 0.2s; font-family:var(--font-body); }
-  .cleaner-chip:hover { border-color:var(--sage); }
-  .cleaner-chip.selected { background:var(--blue-pale); border-color:var(--blue-mid); color:var(--blue-deep); }
-  .stripe-note { display:flex; align-items:center; gap:6px; font-size:9px; color:var(--taupe); }
-  .stripe-note::before { content:'🔒'; font-size:10px; }
-  .submit-btn { width:100%; padding:0.95rem; border-radius:100px; background:var(--forest); color:var(--cream); font-family:var(--font-body); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; border:none; cursor:pointer; transition:all 0.25s; }
-  .submit-btn:hover { background:var(--blue-deep); }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: var(--blue-pale);
+      opacity: 0.65;
+      pointer-events: none;
+    }
 
-  /* TESTIMONIALS — blue-pale */
-  .testimonials { background:var(--blue-pale); }
-  .testimonials .section-title { color:var(--blue-deep); }
-  .testimonials .section-eyebrow { color:var(--blue-mid); }
-  .testi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; }
-  .testi-card { background:var(--white); border-radius:16px; padding:2rem; border:0.5px solid rgba(174,202,232,0.5); }
-  .testi-stars { color:var(--sage-deep); font-size:14px; margin-bottom:1rem; letter-spacing:2px; }
-  .testi-text { font-family:var(--font-display); font-size:18px; font-style:italic; font-weight:300; color:var(--warm-dark); line-height:1.6; margin-bottom:1.25rem; }
-  .testi-author { font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--sage); }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 330px;
+      height: 330px;
+      border-radius: 50%;
+      background: var(--sage-light);
+      opacity: 0.9;
+      pointer-events: none;
+    }
 
-  footer { background:var(--warm-dark); color:rgba(250,247,242,0.65); padding:4rem 3rem 2.5rem; }
-  .footer-inner { display:grid; grid-template-columns:2fr 1fr 1fr; gap:3rem; margin-bottom:3rem; }
-  .footer-brand { display:flex; flex-direction:column; gap:1rem; }
-  .footer-logo { font-family:var(--font-display); font-size:28px; font-style:italic; color:var(--cream); font-weight:300; }
-  .footer-tagline { font-size:11px; max-width:240px; line-height:1.7; }
-  .footer-col h5 { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(250,247,242,0.4); margin-bottom:1.25rem; }
-  .footer-col a { display:block; font-size:12px; color:rgba(250,247,242,0.6); text-decoration:none; margin-bottom:0.6rem; transition:color 0.2s; }
-  .footer-col a:hover { color:var(--cream); }
-  .footer-bottom { border-top:0.5px solid rgba(250,247,242,0.1); padding-top:1.75rem; display:flex; justify-content:space-between; align-items:center; font-size:10px; flex-wrap:wrap; gap:0.5rem; }
-  .footer-sms-note { background:rgba(174,202,232,0.12); border-radius:8px; padding:0.4rem 0.85rem; font-size:9.5px; color:var(--blue-mist); }
+    .hero-big-logo {
+      font-family: var(--font-display);
+      font-size: clamp(62px, 11vw, 132px);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--forest);
+      line-height: 1;
+      letter-spacing: -2px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 0.75rem;
+    }
 
-  @media(max-width:768px){
-    nav{padding:1rem 1.5rem;} .nav-links{display:none;}
-    section{padding:4rem 1.5rem;}
-    .booking-inner{grid-template-columns:1fr;gap:2rem;}
-    .footer-inner{grid-template-columns:1fr;gap:2rem;}
-    .form-row{grid-template-columns:1fr;}
-    .trust-bar{gap:1.5rem;padding:1rem 1.5rem;}
-    .hero-big-logo{font-size:clamp(48px,15vw,80px);}
-  }
-</style>
+    .hero-rule {
+      width: 60px;
+      height: 1px;
+      background: var(--sage);
+      margin: 0.75rem auto 1.25rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 1.25rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-sub {
+      font-size: 13px;
+      color: var(--sage-deep);
+      max-width: 470px;
+      margin: 0 auto 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 2.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 3.25rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hero-badge-num {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-style: italic;
+      color: var(--forest);
+    }
+
+    .hero-badge-label {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sage);
+    }
+
+    .btn-primary {
+      background: var(--forest);
+      color: var(--cream);
+      padding: 0.9rem 2.1rem;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+      transition: all 0.25s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-deep);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--forest);
+      padding: 0.9rem 2.1rem;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--sage);
+      display: inline-block;
+      transition: all 0.25s ease;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--forest);
+      transform: translateY(-1px);
+    }
+
+    .trust-bar {
+      background: var(--blue-pale);
+      border-top: 0.5px solid var(--blue-mist);
+      border-bottom: 0.5px solid var(--blue-mist);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue-deep);
+    }
+
+    .trust-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--blue-mid);
+    }
+
+    section { padding: 6rem 3rem; }
+
+    .section-header { margin-bottom: 3.5rem; }
+
+    .section-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--blue-mid);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--warm-dark);
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 12px;
+      color: var(--taupe);
+      max-width: 520px;
+    }
+
+    .services { background: var(--sage-light); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 2rem 1.75rem;
+      border: 0.5px solid var(--sand);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(100, 126, 147, 0.08);
+    }
+
+    .service-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 20px;
+    }
+
+    .service-card h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-style: italic;
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+
+    .service-card p {
+      font-size: 12px;
+      color: var(--taupe);
+    }
+
+    .service-tag {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--forest);
+      border: 0.5px solid var(--sage-deep);
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .pricing { background: var(--cream); }
+
+    .pricing-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .pricing-tab {
+      padding: 0.65rem 1.4rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 0.5px solid var(--sand);
+      background: transparent;
+      color: var(--sage-deep);
+      transition: all 0.2s ease;
+      font-family: var(--font-body);
+    }
+
+    .pricing-tab.active {
+      background: var(--forest);
+      color: var(--cream);
+      border-color: var(--forest);
+    }
+
+    .pricing-panel { display: none; }
+    .pricing-panel.active { display: block; }
+
+    .pricing-intro {
+      font-size: 12px;
+      color: var(--taupe);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      max-width: 640px;
+      background: var(--linen);
+      padding: 1.25rem 1.5rem;
+      border-radius: 12px;
+      border-left: 3px solid var(--blue-mist);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 1rem;
+    }
+
+    .price-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      border: 0.5px solid var(--sand);
+      text-align: center;
+      transition: border-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .price-card:hover {
+      border-color: var(--sage);
+      transform: translateY(-2px);
+    }
+
+    .price-card.quote-card {
+      border: 1px dashed var(--sand);
+    }
+
+    .price-label {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.75rem;
+    }
+
+    .price-amount {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-style: italic;
+      color: var(--forest);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .quote-card .price-amount {
+      font-size: 30px;
+      color: var(--sage-deep);
+    }
+
+    .price-sub {
+      font-size: 12px;
+      color: var(--taupe);
+    }
+
+    .price-note {
+      font-size: 11px;
+      color: var(--blue-mid);
+      margin-top: 0.75rem;
+    }
+
+    .recurring-banner {
+      background: var(--blue-pale);
+      border: 0.5px solid var(--blue-mist);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .recurring-banner strong {
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-style: italic;
+      font-weight: 300;
+      display: block;
+      margin-bottom: 4px;
+      color: var(--blue-deep);
+    }
+
+    .recurring-banner p {
+      font-size: 12px;
+      color: var(--blue-deep);
+    }
+
+    .addons { background: var(--blue-light); }
+
+    .addons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .addon-chip {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 1.1rem 1.4rem;
+      border: 0.5px solid var(--blue-mist);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .addon-chip:hover {
+      border-color: var(--sage);
+      background: var(--sage-light);
+    }
+
+    .addon-chip.selected {
+      border-color: var(--forest);
+      background: var(--sage-light);
+    }
+
+    .addon-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--blue-mist);
+      flex-shrink: 0;
+    }
+
+    .addon-chip.selected .addon-dot { background: var(--forest); }
+
+    .addon-name {
+      font-size: 13px;
+      color: var(--warm-dark);
+      flex: 1;
+    }
+
+    .addon-price {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-style: italic;
+      color: var(--forest);
+      white-space: nowrap;
+    }
+
+    .how { background: var(--linen); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .step-num {
+      font-family: var(--font-display);
+      font-size: 52px;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--blue-mist);
+      line-height: 1;
+    }
+
+    .step h4 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .step p {
+      font-size: 12px;
+      color: var(--taupe);
+    }
+
+    .booking {
+      background: linear-gradient(180deg, var(--blue-light) 0%, var(--cream) 100%);
+      position: relative;
+      overflow: hidden;
+      padding-top: 7rem;
+      padding-bottom: 7rem;
+    }
+
+    .booking::before {
+      content: '';
+      position: absolute;
+      top: -90px;
+      right: -90px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: var(--blue-pale);
+      opacity: 0.8;
+    }
+
+    .booking::after {
+      content: '';
+      position: absolute;
+      bottom: -75px;
+      left: -75px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: var(--sage-light);
+      opacity: 0.9;
+    }
+
+    .booking-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .booking-info {
+      margin-bottom: 2rem;
+    }
+
+    .booking-info .section-sub {
+      margin: 0 auto;
+      max-width: 540px;
+    }
+
+    .booking-perks {
+      list-style: none;
+      margin: 1.75rem auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1rem;
+      justify-content: center;
+      max-width: 680px;
+    }
+
+    .booking-perks li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--sage-deep);
+      background: rgba(255,255,255,0.8);
+      padding: 0.65rem 0.95rem;
+      border-radius: 999px;
+      border: 0.5px solid var(--sand);
+    }
+
+    .perk-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue-mid);
+      flex-shrink: 0;
+    }
+
+    .booking-form {
+      max-width: 690px;
+      margin: 2.5rem auto 0;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(8px);
+      border-radius: 24px;
+      padding: 2.5rem;
+      border: 0.5px solid var(--sand);
+      box-shadow: 0 18px 60px rgba(100, 126, 147, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      text-align: left;
+    }
+
+    .form-title {
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--warm-dark);
+      text-align: center;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      border: 0.5px solid var(--sand);
+      background: var(--linen);
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--warm-dark);
+      outline: none;
+      font-weight: 300;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--sage);
+    }
+
+    .form-divider {
+      height: 0.5px;
+      background: var(--sand);
+    }
+
+    .cleaner-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .cleaner-label {
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sage-deep);
+    }
+
+    .cleaners-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .cleaner-chip {
+      padding: 0.45rem 1.1rem;
+      border-radius: 999px;
+      border: 0.5px solid var(--sand);
+      background: var(--linen);
+      font-size: 11px;
+      color: var(--sage-deep);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-body);
+    }
+
+    .cleaner-chip:hover { border-color: var(--sage); }
+
+    .cleaner-chip.selected {
+      background: var(--blue-pale);
+      border-color: var(--blue-mid);
+      color: var(--blue-deep);
+    }
+
+    .form-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--sage-deep);
+      cursor: pointer;
+    }
+
+    .form-check input[type="checkbox"] {
+      accent-color: var(--forest);
+      width: 14px;
+      height: 14px;
+    }
+
+    .stripe-note {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 9px;
+      color: var(--taupe);
+    }
+
+    .stripe-note::before {
+      content: '🔒';
+      font-size: 10px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 0.95rem;
+      border-radius: 999px;
+      background: var(--forest);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .submit-btn:hover { background: var(--blue-deep); }
+
+    .testimonials { background: var(--blue-pale); }
+
+    .testimonials .section-title { color: var(--blue-deep); }
+    .testimonials .section-eyebrow { color: var(--blue-mid); }
+
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .testi-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 0.5px solid rgba(148, 174, 196, 0.35);
+    }
+
+    .testi-stars {
+      color: var(--sage-deep);
+      font-size: 14px;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+    }
+
+    .testi-text {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--warm-dark);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+
+    .testi-author {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage);
+    }
+
+    footer {
+      background: var(--warm-dark);
+      color: rgba(250, 247, 242, 0.65);
+      padding: 4rem 3rem 2.5rem;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-style: italic;
+      color: var(--cream);
+      font-weight: 300;
+    }
+
+    .footer-tagline {
+      font-size: 11px;
+      max-width: 240px;
+      line-height: 1.7;
+    }
+
+    .footer-col h5 {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(250, 247, 242, 0.4);
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-col a {
+      display: block;
+      font-size: 12px;
+      color: rgba(250, 247, 242, 0.6);
+      text-decoration: none;
+      margin-bottom: 0.6rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-col a:hover { color: var(--cream); }
+
+    .footer-bottom {
+      border-top: 0.5px solid rgba(250, 247, 242, 0.1);
+      padding-top: 1.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .footer-sms-note {
+      background: rgba(205, 221, 234, 0.12);
+      border-radius: 8px;
+      padding: 0.4rem 0.85rem;
+      font-size: 9.5px;
+      color: var(--blue-mist);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .trust-bar { gap: 1.25rem; padding: 1rem 1.5rem; }
+      .hero-big-logo { font-size: clamp(48px, 15vw, 80px); }
+      .form-row { grid-template-columns: 1fr; }
+      .booking-form { padding: 1.5rem; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .booking { padding-top: 5rem; padding-bottom: 5rem; }
+    }
+  </style>
 </head>
 <body>
+  <div class="notif-bar">Text reminders 24 hrs before & after every clean ✦ Austin, TX</div>
 
-<div class="notif-bar">Text reminders 24 hrs before & after every clean ✦ Austin, TX</div>
-
-<nav>
-  <div class="nav-logo">Suds & Sweep</div>
-  <div class="nav-links">
-    <a href="#services">Services</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#addons">Add-ons</a>
-    <a href="#how">How it works</a>
-    <a href="about.html">Our team</a>
-    <a href="#booking" class="nav-cta">Book now</a>
-  </div>
-</nav>
-
-<!-- HERO — cream bg -->
-<section class="hero">
-  <div class="hero-big-logo">Suds & Sweep</div>
-  <div class="hero-rule"></div>
-  <p class="hero-eyebrow">Austin's boutique home cleaning</p>
-  <p class="hero-sub">Trusted local cleaners. Reliable scheduling. A home that feels like a fresh start.</p>
-  <div class="hero-actions">
-    <a href="#booking" class="btn-primary">Book a clean</a>
-    <a href="#services" class="btn-outline">See services</a>
-  </div>
-  <div class="hero-badges">
-    <div class="hero-badge"><span class="hero-badge-num">100%</span><span class="hero-badge-label">Satisfaction</span></div>
-    <div class="hero-badge"><span class="hero-badge-num">24hr</span><span class="hero-badge-label">Text Reminders</span></div>
-    <div class="hero-badge"><span class="hero-badge-num">Local</span><span class="hero-badge-label">Austin Crew</span></div>
-  </div>
-</section>
-
-<!-- TRUST — blue-pale -->
-<div class="trust-bar">
-  <div class="trust-item"><div class="trust-dot"></div>Vetted local cleaners</div>
-  <div class="trust-item"><div class="trust-dot"></div>Secure payment via Stripe</div>
-  <div class="trust-item"><div class="trust-dot"></div>Text updates included</div>
-  <div class="trust-item"><div class="trust-dot"></div>Non-toxic option available</div>
-  <div class="trust-item"><div class="trust-dot"></div>Recurring discounts</div>
-</div>
-
-<!-- SERVICES — sage-light -->
-<section class="services" id="services">
-  <div class="section-header">
-    <p class="section-eyebrow">What we do</p>
-    <h2 class="section-title">Every kind of clean</h2>
-    <p class="section-sub">From weekly maintenance to post-renovation deep cleans — we handle it all.</p>
-  </div>
-  <div class="services-grid">
-    <div class="service-card"><div class="service-icon" style="background:#EFF4EF;">🏠</div><h3>Residential</h3><p>Recurring or one-time home cleaning, tiered by square footage.</p><span class="service-tag">Most popular</span></div>
-    <div class="service-card"><div class="service-icon" style="background:#E8F3FB;">🔨</div><h3>Post-Renovation</h3><p>Construction dust, paint residue, debris — we restore your space.</p><span class="service-tag">Custom quote</span></div>
-    <div class="service-card"><div class="service-icon" style="background:#EFF4EF;">🏨</div><h3>Airbnb / STR</h3><p>Turnover cleans timed for check-in. Guest-ready every time.</p><span class="service-tag">Recurring available</span></div>
-    <div class="service-card"><div class="service-icon" style="background:#F0EBF8;">💼</div><h3>Small Office</h3><p>Keep your workspace fresh on a schedule that works for your team.</p><span class="service-tag">Weekly plans</span></div>
-    <div class="service-card"><div class="service-icon" style="background:#FBF0E8;">🚗</div><h3>Garage</h3><p>Full sweep, dust, and organize. Standalone or as an add-on.</p><span class="service-tag">Add-on friendly</span></div>
-    <div class="service-card"><div class="service-icon" style="background:#E8F3FB;">📦</div><h3>Move In / Out</h3><p>Deep clean before you move in or leave a space spotless.</p><span class="service-tag">Checklist included</span></div>
-  </div>
-</section>
-
-<!-- PRICING — cream -->
-<section class="pricing" id="pricing">
-  <div class="section-header">
-    <p class="section-eyebrow">Transparent pricing</p>
-    <h2 class="section-title">Simple & straightforward</h2>
-    <p class="section-sub">Priced by square footage. Recurring clients save automatically.</p>
-  </div>
-  <div class="pricing-tabs">
-    <button class="pricing-tab active" onclick="showTab('standard',this)">Standard</button>
-    <button class="pricing-tab" onclick="showTab('deep',this)">Deep clean</button>
-    <button class="pricing-tab" onclick="showTab('moveout',this)">Move in / out</button>
-    <button class="pricing-tab" onclick="showTab('airbnb',this)">Airbnb / STR</button>
-    <button class="pricing-tab" onclick="showTab('reno',this)">Post-renovation</button>
-    <button class="pricing-tab" onclick="showTab('office',this)">Small office</button>
-  </div>
-
-  <div class="pricing-panel active" id="tab-standard">
-    <div class="pricing-grid">
-      <div class="price-card"><p class="price-label">Studio · 1BR</p><p class="price-amount">$130</p><p class="price-sub">Up to ~750 sq ft</p><p class="price-note">Biweekly from $117</p></div>
-      <div class="price-card featured"><p class="price-label">2BR · 2BA</p><p class="price-amount">$175</p><p class="price-sub">Up to ~1,200 sq ft</p><p class="price-note">Biweekly from $158</p></div>
-      <div class="price-card"><p class="price-label">3BR · 2BA</p><p class="price-amount">$215</p><p class="price-sub">Up to ~1,800 sq ft</p><p class="price-note">Biweekly from $194</p></div>
-      <div class="price-card"><p class="price-label">4BR · 3BA</p><p class="price-amount">$260</p><p class="price-sub">Up to ~2,400 sq ft</p><p class="price-note">Biweekly from $234</p></div>
-      <div class="price-card"><p class="price-label">5BR+</p><p class="price-amount">$310+</p><p class="price-sub">2,400+ sq ft</p><p class="price-note">Custom quote available</p></div>
+  <nav>
+    <a href="index.html" class="nav-logo">Suds & Sweep</a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#addons">Add-ons</a>
+      <a href="#how">How it works</a>
+      <a href="about.html">Our team</a>
+      <a href="#booking" class="nav-cta">Book now</a>
     </div>
-  </div>
+  </nav>
 
-  <div class="pricing-panel" id="tab-deep">
-    <div class="pricing-intro">Recommended for first-time clients or homes that haven't been cleaned in a while. Includes baseboards, inside cabinets, ceiling fans, window sills, and all the spots a standard clean skips.</div>
-    <div class="pricing-grid">
-      <div class="price-card"><p class="price-label">Studio · 1BR</p><p class="price-amount">$195</p><p class="price-sub">Full deep clean</p></div>
-      <div class="price-card featured"><p class="price-label">2BR · 2BA</p><p class="price-amount">$255</p><p class="price-sub">Full deep clean</p></div>
-      <div class="price-card"><p class="price-label">3BR · 2BA</p><p class="price-amount">$295</p><p class="price-sub">Full deep clean</p></div>
-      <div class="price-card"><p class="price-label">4BR · 3BA</p><p class="price-amount">$345</p><p class="price-sub">Full deep clean</p></div>
-      <div class="price-card"><p class="price-label">5BR+</p><p class="price-amount">$400+</p><p class="price-sub">Custom quote</p></div>
+  <section class="hero">
+    <div class="hero-big-logo">Suds & Sweep</div>
+    <div class="hero-rule"></div>
+    <p class="hero-eyebrow">Austin's boutique home cleaning</p>
+    <p class="hero-sub">Trusted local cleaners. Reliable scheduling. A home that feels like a fresh start.</p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn-primary">Book a clean</a>
+      <a href="#services" class="btn-outline">See services</a>
     </div>
-  </div>
-
-  <div class="pricing-panel" id="tab-moveout">
-    <div class="pricing-intro">Full deep clean plus a move-out checklist. Includes inside appliances, all cabinets, closets, and a condition walkthrough. Perfect for security deposit protection.</div>
-    <div class="pricing-grid">
-      <div class="price-card"><p class="price-label">Studio · 1BR</p><p class="price-amount">$280</p><p class="price-sub">Checklist included</p></div>
-      <div class="price-card featured"><p class="price-label">2BR · 2BA</p><p class="price-amount">$340</p><p class="price-sub">Checklist included</p></div>
-      <div class="price-card"><p class="price-label">3BR · 2BA</p><p class="price-amount">$385</p><p class="price-sub">Checklist included</p></div>
-      <div class="price-card"><p class="price-label">4BR · 3BA</p><p class="price-amount">$440</p><p class="price-sub">Checklist included</p></div>
-      <div class="price-card"><p class="price-label">5BR+</p><p class="price-amount">$500+</p><p class="price-sub">Custom quote</p></div>
+    <div class="hero-badges">
+      <div class="hero-badge"><span class="hero-badge-num">100%</span><span class="hero-badge-label">Satisfaction</span></div>
+      <div class="hero-badge"><span class="hero-badge-num">24hr</span><span class="hero-badge-label">Text Reminders</span></div>
+      <div class="hero-badge"><span class="hero-badge-num">Local</span><span class="hero-badge-label">Austin Crew</span></div>
     </div>
+  </section>
+
+  <div class="trust-bar">
+    <div class="trust-item"><div class="trust-dot"></div>Vetted local cleaners</div>
+    <div class="trust-item"><div class="trust-dot"></div>Secure payment via Stripe</div>
+    <div class="trust-item"><div class="trust-dot"></div>Text updates included</div>
+    <div class="trust-item"><div class="trust-dot"></div>Non-toxic option available</div>
+    <div class="trust-item"><div class="trust-dot"></div>Recurring discounts</div>
   </div>
 
-  <div class="pricing-panel" id="tab-airbnb">
-    <div class="pricing-intro">Turnover cleans timed around your guest check-in and check-out. We handle linen changes, restocking, and making sure every corner is guest-ready. Recurring turnover clients get priority scheduling.</div>
-    <div class="pricing-grid">
-      <div class="price-card"><p class="price-label">Studio · 1BR</p><p class="price-amount">$110</p><p class="price-sub">Per turnover</p><p class="price-note">Recurring rate available</p></div>
-      <div class="price-card featured"><p class="price-label">2BR · 2BA</p><p class="price-amount">$150</p><p class="price-sub">Per turnover</p><p class="price-note">Recurring rate available</p></div>
-      <div class="price-card"><p class="price-label">3BR · 2BA</p><p class="price-amount">$185</p><p class="price-sub">Per turnover</p><p class="price-note">Recurring rate available</p></div>
-      <div class="price-card"><p class="price-label">4BR+</p><p class="price-amount">$225+</p><p class="price-sub">Per turnover</p><p class="price-note">Custom quote</p></div>
-      <div class="price-card quote-card"><p class="price-label">High-frequency hosts</p><p class="price-amount">Let's talk</p><p class="price-sub">Custom monthly rate · 8+ turnovers/month</p></div>
+  <section class="services" id="services">
+    <div class="section-header">
+      <p class="section-eyebrow">What we do</p>
+      <h2 class="section-title">Every kind of clean</h2>
+      <p class="section-sub">From weekly maintenance to post-renovation deep cleans — we handle it all.</p>
     </div>
-  </div>
-
-  <div class="pricing-panel" id="tab-reno">
-    <div class="pricing-intro">Post-construction and renovation cleans are priced per project — every job is different. Send us a few photos and we'll get you a quote within 24 hours. No obligation.</div>
-    <div class="pricing-grid">
-      <div class="price-card quote-card"><p class="price-label">Small space</p><p class="price-amount">From $300</p><p class="price-sub">Under 1,000 sq ft · light dust &amp; debris</p></div>
-      <div class="price-card quote-card featured"><p class="price-label">Mid-size home</p><p class="price-amount">From $450</p><p class="price-sub">1,000–2,500 sq ft · full renovation clean</p></div>
-      <div class="price-card quote-card"><p class="price-label">Large / full reno</p><p class="price-amount">Custom</p><p class="price-sub">2,500+ sq ft or heavy construction</p></div>
-      <div class="price-card quote-card"><p class="price-label">Commercial / builder</p><p class="price-amount">Custom</p><p class="price-sub">New builds, multi-unit, ongoing contracts</p></div>
-    </div>
-    <div style="margin-top:1.5rem;padding:1.25rem 1.5rem;background:var(--linen);border-radius:12px;font-size:12px;color:var(--taupe);">📸 Send us photos of the space and we'll quote within 24 hrs — no commitment needed.</div>
-  </div>
-
-  <div class="pricing-panel" id="tab-office">
-    <div class="pricing-intro">Small offices, studios, and shared workspaces. We work around your team's schedule — early morning, evenings, or weekends. Recurring clients get a locked-in rate.</div>
-    <div class="pricing-grid">
-      <div class="price-card quote-card"><p class="price-label">Micro office</p><p class="price-amount">From $120</p><p class="price-sub">1–5 desks · under 500 sq ft</p><p class="price-note">Weekly from $100</p></div>
-      <div class="price-card quote-card featured"><p class="price-label">Small office</p><p class="price-amount">From $175</p><p class="price-sub">5–15 desks · 500–1,200 sq ft</p><p class="price-note">Weekly from $150</p></div>
-      <div class="price-card quote-card"><p class="price-label">Mid-size office</p><p class="price-amount">From $250</p><p class="price-sub">15–30 desks · up to 2,500 sq ft</p><p class="price-note">Custom recurring rate</p></div>
-      <div class="price-card quote-card"><p class="price-label">Studio / creative</p><p class="price-amount">Custom</p><p class="price-sub">Photography, salon, wellness studio, etc.</p></div>
-    </div>
-  </div>
-
-  <div class="recurring-banner">
-    <div>
-      <strong>Save with recurring cleanings</strong>
-      <p>10% off biweekly · 15% off weekly — applied automatically at checkout.</p>
-    </div>
-    <a href="#booking" class="btn-primary">Set up recurring</a>
-  </div>
-</section>
-
-<!-- ADD-ONS — blue-light -->
-<section class="addons" id="addons">
-  <div class="section-header">
-    <p class="section-eyebrow">Customize your clean</p>
-    <h2 class="section-title">Add-ons</h2>
-    <p class="section-sub">Select any extras when you book — we'll take care of the rest.</p>
-  </div>
-  <div class="addons-grid">
-    <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Non-toxic supplies</span><span class="addon-price">+$20</span></div>
-    <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Interior oven</span><span class="addon-price">+$35</span></div>
-    <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Laundry (wash + fold)</span><span class="addon-price">+$25</span></div>
-    <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Interior cabinets</span><span class="addon-price">+$40</span></div>
-    <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Move-out checklist</span><span class="addon-price">+$45</span></div>
-    <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Pet hair deep clean</span><span class="addon-price">+$25</span></div>
-    <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Interior windows</span><span class="addon-price">+$30</span></div>
-    <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Interior fridge</span><span class="addon-price">+$30</span></div>
-    <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Post-party cleanup</span><span class="addon-price">+$50</span></div>
-    <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Organizing / declutter</span><span class="addon-price">+$40</span></div>
-  </div>
-</section>
-
-<!-- HOW — linen -->
-<section class="how" id="how">
-  <div class="section-header">
-    <p class="section-eyebrow">The process</p>
-    <h2 class="section-title">Simple as that</h2>
-  </div>
-  <div class="steps">
-    <div class="step"><span class="step-num">01</span><h4>Book online</h4><p>Pick your service, size, and any add-ons. Choose a time — confirmed within the hour.</p></div>
-    <div class="step"><span class="step-num">02</span><h4>We remind you</h4><p>Text reminder sent 24 hours before your clean. No surprises, no missed appointments.</p></div>
-    <div class="step"><span class="step-num">03</span><h4>Your crew arrives</h4><p>Your trusted cleaner shows up on time. Same crew every visit if you prefer.</p></div>
-    <div class="step"><span class="step-num">04</span><h4>Done & confirmed</h4><p>Text when complete. Pay securely via Stripe. Enjoy your home.</p></div>
-  </div>
-</section>
-
-<!-- BOOKING — forest -->
-<section class="booking" id="booking">
-  <div class="booking-inner">
-    <div class="booking-info">
-      <p class="section-eyebrow">Ready to book</p>
-      <h2 class="section-title">Let's get your home sorted.</h2>
-      <p class="section-sub">Fill out the form and we'll confirm shortly. Scheduling powered by Calendly.</p>
-      <ul class="booking-perks">
-        <li><div class="perk-dot"></div>Choose your preferred cleaner</li>
-        <li><div class="perk-dot"></div>Select add-ons at checkout</li>
-        <li><div class="perk-dot"></div>Secure payment via Stripe</li>
-        <li><div class="perk-dot"></div>24-hour text reminder included</li>
-        <li><div class="perk-dot"></div>Easy recurring setup</li>
-      </ul>
-    </div>
-    <div class="booking-form">
-      <p class="form-title">Book a clean</p>
-      <div class="form-row">
-        <div class="form-group"><label>First name</label><input type="text" placeholder="First"/></div>
-        <div class="form-group"><label>Last name</label><input type="text" placeholder="Last"/></div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon" style="background:#edf4ee;">🏠</div>
+        <h3>Residential</h3>
+        <p>Recurring or one-time home cleaning, tiered by square footage.</p>
+        <span class="service-tag">Most popular</span>
       </div>
-      <div class="form-group"><label>Phone</label><input type="tel" placeholder="(512) 000-0000"/></div>
-      <div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com"/></div>
-      <div class="form-group"><label>Address</label><input type="text" placeholder="123 Main St, Austin TX"/></div>
-      <div class="form-row">
-        <div class="form-group"><label>Service type</label><select><option>Residential — standard</option><option>Residential — deep clean</option><option>Move in / move out</option><option>Airbnb / STR turnover</option><option>Post-renovation</option><option>Small office</option><option>Garage</option></select></div>
-        <div class="form-group"><label>Home size</label><select><option>Studio / 1BR</option><option>2BR · 2BA</option><option>3BR · 2BA</option><option>4BR · 3BA</option><option>5BR+</option></select></div>
+      <div class="service-card">
+        <div class="service-icon" style="background:#eaf4fb;">🔨</div>
+        <h3>Post-Renovation</h3>
+        <p>Construction dust, paint residue, debris — we restore your space.</p>
+        <span class="service-tag">Custom quote</span>
       </div>
-      <div class="form-divider"></div>
-      <div class="cleaner-section">
-        <p class="cleaner-label">Preferred cleaner (optional)</p>
-        <div class="cleaners-row">
-          <button class="cleaner-chip selected" onclick="selectCleaner(this)">No preference</button>
-          <button class="cleaner-chip" onclick="selectCleaner(this)">Maria</button>
-          <button class="cleaner-chip" onclick="selectCleaner(this)">Rosa</button>
-          <button class="cleaner-chip" onclick="selectCleaner(this)">Carmen</button>
+      <div class="service-card">
+        <div class="service-icon" style="background:#edf4ee;">🏨</div>
+        <h3>Airbnb / STR</h3>
+        <p>Turnover cleans timed for check-in. Guest-ready every time.</p>
+        <span class="service-tag">Recurring available</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="background:#eef2f8;">💼</div>
+        <h3>Small Office</h3>
+        <p>Keep your workspace fresh on a schedule that works for your team.</p>
+        <span class="service-tag">Weekly plans</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="background:#faf1ea;">🚗</div>
+        <h3>Garage</h3>
+        <p>Full sweep, dust, and organize. Standalone or as an add-on.</p>
+        <span class="service-tag">Add-on friendly</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="background:#eaf4fb;">📦</div>
+        <h3>Move In / Out</h3>
+        <p>Deep clean before you move in or leave a space spotless.</p>
+        <span class="service-tag">Checklist included</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="section-header">
+      <p class="section-eyebrow">Transparent pricing</p>
+      <h2 class="section-title">Simple & straightforward</h2>
+      <p class="section-sub">Priced by square footage. Recurring clients save automatically.</p>
+    </div>
+
+    <div class="pricing-tabs">
+      <button class="pricing-tab active" onclick="showTab('standard', this)">Standard</button>
+      <button class="pricing-tab" onclick="showTab('deep', this)">Deep clean</button>
+      <button class="pricing-tab" onclick="showTab('moveout', this)">Move in / out</button>
+      <button class="pricing-tab" onclick="showTab('airbnb', this)">Airbnb / STR</button>
+      <button class="pricing-tab" onclick="showTab('reno', this)">Post-renovation</button>
+      <button class="pricing-tab" onclick="showTab('office', this)">Small office</button>
+    </div>
+
+    <div class="pricing-panel active" id="tab-standard">
+      <div class="pricing-grid">
+        <div class="price-card"><p class="price-label">Studio · 1BR</p><p class="price-amount">$130</p><p class="price-sub">Up to ~750 sq ft</p><p class="price-note">Biweekly from $117</p></div>
+        <div class="price-card"><p class="price-label">2BR · 2BA</p><p class="price-amount">$175</p><p class="price-sub">Up to ~1,200 sq ft</p><p class="price-note">Biweekly from $158</p></div>
+        <div class="price-card"><p class="price-label">3BR · 2BA</p><p class="price-amount">$215</p><p class="price-sub">Up to ~1,800 sq ft</p><p class="price-note">Biweekly from $194</p></div>
+        <div class="price-card"><p class="price-label">4BR · 3BA</p><p class="price-amount">$260</p><p class="price-sub">Up to ~2,400 sq ft</p><p class="price-note">Biweekly from $234</p></div>
+        <div class="price-card"><p class="price-label">5BR+</p><p class="price-amount">$310+</p><p class="price-sub">2,400+ sq ft</p><p class="price-note">Custom quote available</p></div>
+      </div>
+    </div>
+
+    <div class="pricing-panel" id="tab-deep">
+      <div class="pricing-intro">Recommended for first-time clients or homes that haven't been cleaned in a while. Includes baseboards, inside cabinets, ceiling fans, window sills, and all the spots a standard clean skips.</div>
+      <div class="pricing-grid">
+        <div class="price-card"><p class="price-label">Studio · 1BR</p><p class="price-amount">$195</p><p class="price-sub">Full deep clean</p></div>
+        <div class="price-card"><p class="price-label">2BR · 2BA</p><p class="price-amount">$255</p><p class="price-sub">Full deep clean</p></div>
+        <div class="price-card"><p class="price-label">3BR · 2BA</p><p class="price-amount">$295</p><p class="price-sub">Full deep clean</p></div>
+        <div class="price-card"><p class="price-label">4BR · 3BA</p><p class="price-amount">$345</p><p class="price-sub">Full deep clean</p></div>
+        <div class="price-card"><p class="price-label">5BR+</p><p class="price-amount">$400+</p><p class="price-sub">Custom quote</p></div>
+      </div>
+    </div>
+
+    <div class="pricing-panel" id="tab-moveout">
+      <div class="pricing-intro">Full deep clean plus a move-out checklist. Includes inside appliances, all cabinets, closets, and a condition walkthrough. Perfect for security deposit protection.</div>
+      <div class="pricing-grid">
+        <div class="price-card"><p class="price-label">Studio · 1BR</p><p class="price-amount">$280</p><p class="price-sub">Checklist included</p></div>
+        <div class="price-card"><p class="price-label">2BR · 2BA</p><p class="price-amount">$340</p><p class="price-sub">Checklist included</p></div>
+        <div class="price-card"><p class="price-label">3BR · 2BA</p><p class="price-amount">$385</p><p class="price-sub">Checklist included</p></div>
+        <div class="price-card"><p class="price-label">4BR · 3BA</p><p class="price-amount">$440</p><p class="price-sub">Checklist included</p></div>
+        <div class="price-card"><p class="price-label">5BR+</p><p class="price-amount">$500+</p><p class="price-sub">Custom quote</p></div>
+      </div>
+    </div>
+
+    <div class="pricing-panel" id="tab-airbnb">
+      <div class="pricing-intro">Turnover cleans timed around your guest check-in and check-out. We handle linen changes, restocking, and making sure every corner is guest-ready. Recurring turnover clients get priority scheduling.</div>
+      <div class="pricing-grid">
+        <div class="price-card"><p class="price-label">Studio · 1BR</p><p class="price-amount">$110</p><p class="price-sub">Per turnover</p><p class="price-note">Recurring rate available</p></div>
+        <div class="price-card"><p class="price-label">2BR · 2BA</p><p class="price-amount">$150</p><p class="price-sub">Per turnover</p><p class="price-note">Recurring rate available</p></div>
+        <div class="price-card"><p class="price-label">3BR · 2BA</p><p class="price-amount">$185</p><p class="price-sub">Per turnover</p><p class="price-note">Recurring rate available</p></div>
+        <div class="price-card"><p class="price-label">4BR+</p><p class="price-amount">$225+</p><p class="price-sub">Per turnover</p><p class="price-note">Custom quote</p></div>
+        <div class="price-card quote-card"><p class="price-label">High-frequency hosts</p><p class="price-amount">Let's talk</p><p class="price-sub">Custom monthly rate · 8+ turnovers/month</p></div>
+      </div>
+    </div>
+
+    <div class="pricing-panel" id="tab-reno">
+      <div class="pricing-intro">Post-construction and renovation cleans are priced per project — every job is different. Send us a few photos and we'll get you a quote within 24 hours. No obligation.</div>
+      <div class="pricing-grid">
+        <div class="price-card quote-card"><p class="price-label">Small space</p><p class="price-amount">From $300</p><p class="price-sub">Under 1,000 sq ft · light dust &amp; debris</p></div>
+        <div class="price-card quote-card"><p class="price-label">Mid-size home</p><p class="price-amount">From $450</p><p class="price-sub">1,000–2,500 sq ft · full renovation clean</p></div>
+        <div class="price-card quote-card"><p class="price-label">Large / full reno</p><p class="price-amount">Custom</p><p class="price-sub">2,500+ sq ft or heavy construction</p></div>
+        <div class="price-card quote-card"><p class="price-label">Commercial / builder</p><p class="price-amount">Custom</p><p class="price-sub">New builds, multi-unit, ongoing contracts</p></div>
+      </div>
+      <div style="margin-top:1.5rem;padding:1.25rem 1.5rem;background:var(--linen);border-radius:12px;font-size:12px;color:var(--taupe);">📸 Send us photos of the space and we'll quote within 24 hrs — no commitment needed.</div>
+    </div>
+
+    <div class="pricing-panel" id="tab-office">
+      <div class="pricing-intro">Small offices, studios, and shared workspaces. We work around your team's schedule — early morning, evenings, or weekends. Recurring clients get a locked-in rate.</div>
+      <div class="pricing-grid">
+        <div class="price-card quote-card"><p class="price-label">Micro office</p><p class="price-amount">From $120</p><p class="price-sub">1–5 desks · under 500 sq ft</p><p class="price-note">Weekly from $100</p></div>
+        <div class="price-card quote-card"><p class="price-label">Small office</p><p class="price-amount">From $175</p><p class="price-sub">5–15 desks · 500–1,200 sq ft</p><p class="price-note">Weekly from $150</p></div>
+        <div class="price-card quote-card"><p class="price-label">Mid-size office</p><p class="price-amount">From $250</p><p class="price-sub">15–30 desks · up to 2,500 sq ft</p><p class="price-note">Custom recurring rate</p></div>
+        <div class="price-card quote-card"><p class="price-label">Studio / creative</p><p class="price-amount">Custom</p><p class="price-sub">Photography, salon, wellness studio, etc.</p></div>
+      </div>
+    </div>
+
+    <div class="recurring-banner">
+      <div>
+        <strong>Save with recurring cleanings</strong>
+        <p>10% off biweekly · 15% off weekly — applied automatically at checkout.</p>
+      </div>
+      <a href="#booking" class="btn-primary">Set up recurring</a>
+    </div>
+  </section>
+
+  <section class="addons" id="addons">
+    <div class="section-header">
+      <p class="section-eyebrow">Customize your clean</p>
+      <h2 class="section-title">Add-ons</h2>
+      <p class="section-sub">Select any extras when you book — we'll take care of the rest.</p>
+    </div>
+    <div class="addons-grid">
+      <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Non-toxic supplies</span><span class="addon-price">+$20</span></div>
+      <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Interior oven</span><span class="addon-price">+$35</span></div>
+      <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Laundry (wash + fold)</span><span class="addon-price">+$25</span></div>
+      <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Interior cabinets</span><span class="addon-price">+$40</span></div>
+      <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Move-out checklist</span><span class="addon-price">+$45</span></div>
+      <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Pet hair deep clean</span><span class="addon-price">+$25</span></div>
+      <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Interior windows</span><span class="addon-price">+$30</span></div>
+      <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Interior fridge</span><span class="addon-price">+$30</span></div>
+      <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Post-party cleanup</span><span class="addon-price">+$50</span></div>
+      <div class="addon-chip" onclick="this.classList.toggle('selected')"><div class="addon-dot"></div><span class="addon-name">Organizing / declutter</span><span class="addon-price">+$40</span></div>
+    </div>
+  </section>
+
+  <section class="how" id="how">
+    <div class="section-header">
+      <p class="section-eyebrow">The process</p>
+      <h2 class="section-title">Simple as that</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="step-num">01</span><h4>Book online</h4><p>Pick your service, size, and any add-ons. Choose a time — confirmed within the hour.</p></div>
+      <div class="step"><span class="step-num">02</span><h4>We remind you</h4><p>Text reminder sent 24 hours before your clean. No surprises, no missed appointments.</p></div>
+      <div class="step"><span class="step-num">03</span><h4>Your crew arrives</h4><p>Your trusted cleaner shows up on time. Same crew every visit if you prefer.</p></div>
+      <div class="step"><span class="step-num">04</span><h4>Done & confirmed</h4><p>Text when complete. Pay securely via Stripe. Enjoy your home.</p></div>
+    </div>
+  </section>
+
+  <section class="booking" id="booking">
+    <div class="booking-inner">
+      <div class="booking-info">
+        <p class="section-eyebrow">Ready to book</p>
+        <h2 class="section-title">Let's get your home sorted.</h2>
+        <p class="section-sub">Fill out the form and we'll confirm shortly. Easy scheduling, simple communication, and a cleaner home without the hassle.</p>
+        <ul class="booking-perks">
+          <li><div class="perk-dot"></div>Choose your preferred cleaner</li>
+          <li><div class="perk-dot"></div>Select add-ons at booking</li>
+          <li><div class="perk-dot"></div>Secure payment via Stripe</li>
+          <li><div class="perk-dot"></div>24-hour reminder included</li>
+          <li><div class="perk-dot"></div>Easy recurring setup</li>
+        </ul>
+      </div>
+
+      <div class="booking-form">
+        <p class="form-title">Request a clean</p>
+
+        <div class="form-row">
+          <div class="form-group"><label>First name</label><input type="text" placeholder="First" /></div>
+          <div class="form-group"><label>Last name</label><input type="text" placeholder="Last" /></div>
         </div>
+
+        <div class="form-group"><label>Phone</label><input type="tel" placeholder="(512) 000-0000" /></div>
+        <div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com" /></div>
+        <div class="form-group"><label>Address</label><input type="text" placeholder="123 Main St, Austin TX" /></div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Service type</label>
+            <select>
+              <option>Residential — standard</option>
+              <option>Residential — deep clean</option>
+              <option>Move in / move out</option>
+              <option>Airbnb / STR turnover</option>
+              <option>Post-renovation</option>
+              <option>Small office</option>
+              <option>Garage</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Home size</label>
+            <select>
+              <option>Studio / 1BR</option>
+              <option>2BR · 2BA</option>
+              <option>3BR · 2BA</option>
+              <option>4BR · 3BA</option>
+              <option>5BR+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-divider"></div>
+
+        <div class="cleaner-section">
+          <p class="cleaner-label">Preferred cleaner (optional)</p>
+          <div class="cleaners-row">
+            <button type="button" class="cleaner-chip selected" onclick="selectCleaner(this)">No preference</button>
+            <button type="button" class="cleaner-chip" onclick="selectCleaner(this)">Maria</button>
+            <button type="button" class="cleaner-chip" onclick="selectCleaner(this)">Rosa</button>
+            <button type="button" class="cleaner-chip" onclick="selectCleaner(this)">Carmen</button>
+          </div>
+        </div>
+
+        <div class="form-divider"></div>
+
+        <div class="form-group">
+          <label>Frequency</label>
+          <select>
+            <option>One-time</option>
+            <option>Biweekly — save 10%</option>
+            <option>Weekly — save 15%</option>
+            <option>Monthly</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea rows="2" placeholder="Pets, entry instructions, anything we should know..."></textarea>
+        </div>
+
+        <label class="form-check"><input type="checkbox" checked />Send me a text reminder 24 hours before my clean</label>
+        <div class="stripe-note">Payments processed securely via Stripe.</div>
+        <button class="submit-btn">Request your clean</button>
       </div>
-      <div class="form-divider"></div>
-      <div class="form-group"><label>Frequency</label><select><option>One-time</option><option>Biweekly — save 10%</option><option>Weekly — save 15%</option><option>Monthly</option></select></div>
-      <div class="form-group"><label>Notes</label><textarea rows="2" placeholder="Pets, entry instructions, anything we should know..."></textarea></div>
-      <label class="form-check"><input type="checkbox" checked/>Send me a text reminder 24 hours before my clean</label>
-      <div class="stripe-note">Payments processed securely via Stripe.</div>
-      <button class="submit-btn">Check availability & book →</button>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- TESTIMONIALS — blue-pale -->
-<section class="testimonials">
-  <div class="section-header">
-    <p class="section-eyebrow">What clients say</p>
-    <h2 class="section-title">People love coming home.</h2>
-  </div>
-  <div class="testi-grid">
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Showed up exactly on time, left a towel animal on the bed. My bathroom has never been cleaner."</p><p class="testi-author">Sarah M. · East Austin</p></div>
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"I use them for my Airbnb. Turnovers are seamless — guests always comment on how clean the space is."</p><p class="testi-author">James T. · South Congress</p></div>
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"The post-reno clean was incredible. Construction dust is gone, the place looks brand new."</p><p class="testi-author">Lauren K. · Mueller</p></div>
-  </div>
-</section>
+  <section class="testimonials">
+    <div class="section-header">
+      <p class="section-eyebrow">What clients say</p>
+      <h2 class="section-title">People love coming home.</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">“Always on time, easy to communicate with, and the place feels reset every time they leave.”</p><p class="testi-author">Sarah M. · East Austin</p></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">“I use them for my Airbnb and the turnovers are smooth, reliable, and consistently guest-ready.”</p><p class="testi-author">James T. · South Congress</p></div>
+      <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">“The post-renovation clean made such a difference. It finally felt like I could enjoy the space.”</p><p class="testi-author">Lauren K. · Mueller</p></div>
+    </div>
+  </section>
 
-<!-- FOOTER — warm dark -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <div class="footer-logo">Suds & Sweep</div>
-      <p class="footer-tagline">Austin's trusted boutique home cleaning. Local crew, personal service, reliable results.</p>
-      <div class="footer-sms-note">📱 Text reminders on every booking</div>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">Suds & Sweep</div>
+        <p class="footer-tagline">Austin's trusted boutique home cleaning. Local crew, personal service, reliable results.</p>
+        <div class="footer-sms-note">📱 Text reminders on every booking</div>
+      </div>
+      <div class="footer-col">
+        <h5>Services</h5>
+        <a href="#services">Residential</a>
+        <a href="#services">Deep clean</a>
+        <a href="#services">Post-renovation</a>
+        <a href="#services">Airbnb / STR</a>
+        <a href="#services">Small office</a>
+        <a href="#services">Garage</a>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#addons">Add-ons</a>
+        <a href="about.html">Our team</a>
+        <a href="#booking">Book now</a>
+      </div>
     </div>
-    <div class="footer-col">
-      <h5>Services</h5>
-      <a href="#">Residential</a><a href="#">Deep clean</a><a href="#">Post-renovation</a><a href="#">Airbnb / STR</a><a href="#">Small office</a><a href="#">Garage</a>
+    <div class="footer-bottom">
+      <span>© 2026 Suds & Sweep · Austin, TX</span>
+      <span>Payments via Stripe · Scheduling via Calendly</span>
     </div>
-    <div class="footer-col">
-      <h5>Company</h5>
-      <a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#addons">Add-ons</a><a href="about.html">Our team</a><a href="#booking">Book now</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2025 Suds & Sweep · Austin, TX</span>
-    <span>Payments via Stripe · Scheduling via Calendly</span>
-  </div>
-</footer>
+  </footer>
 
-<script>
-  function showTab(name,btn){
-    document.querySelectorAll('.pricing-panel').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.pricing-tab').forEach(t=>t.classList.remove('active'));
-    document.getElementById('tab-'+name).classList.add('active');
-    btn.classList.add('active');
-  }
-  function selectCleaner(el){
-    document.querySelectorAll('.cleaner-chip').forEach(c=>c.classList.remove('selected'));
-    el.classList.add('selected');
-  }
-  const obs=new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});
-  },{threshold:0.08});
-  document.querySelectorAll('.service-card,.price-card,.step,.testi-card,.addon-chip').forEach(el=>{
-    el.style.opacity='0';el.style.transform='translateY(18px)';
-    el.style.transition='opacity 0.5s ease,transform 0.5s ease';
-    obs.observe(el);
-  });
-</script>
+  <script>
+    function showTab(name, btn) {
+      document.querySelectorAll('.pricing-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.pricing-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function selectCleaner(el) {
+      document.querySelectorAll('.cleaner-chip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.service-card,.price-card,.step,.testi-card,.addon-chip').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(18px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      obs.observe(el);
+    });
+  </script>
 </body>
 </html>
